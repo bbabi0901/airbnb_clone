@@ -80,7 +80,13 @@ const UserMenu = () => {
           <div className="flex flex-col cursor-pointer ">
             <>
               <MenuItem onClick={() => {}} label="Login" />
-              <MenuItem onClick={registerModal.onOpen} label="Sign up" />
+              <MenuItem
+                onClick={() => {
+                  setIsOpen(false);
+                  registerModal.onOpen();
+                }}
+                label="Sign up"
+              />
             </>
           </div>
         </div>
