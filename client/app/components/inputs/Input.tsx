@@ -23,6 +23,7 @@ const Input: React.FC<InputProps> = ({
   required,
   errors,
 }) => {
+  console.log("register", register(id, { required }));
   return (
     <div className="w-full relative">
       {formatPrice && (
