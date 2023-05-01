@@ -20,6 +20,7 @@ export default async function getCurrentUser() {
         email: session.user.email as string,
       },
     });
+
     if (!currentUser) {
       return null;
     }
