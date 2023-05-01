@@ -1,3 +1,5 @@
+// layout is server component by default
+
 // components
 import ClientOnly from "./components/ClientOnly";
 import Navbar from "./components/navbar/Navbar";
@@ -7,6 +9,7 @@ import ToasterProvider from "./provider/ToasterProvider";
 
 import "./globals.css";
 import { Nunito } from "next/font/google";
+import getCurrentUser from "./actions/getCurrentUser";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -15,11 +18,13 @@ export const metadata = {
   description: "Airbnb clone",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const currentUser = await getCurrentUser();
+
   return (
     <html lang="en">
       <body className={font.className}>
@@ -27,7 +32,7 @@ export default function RootLayout({
           <ToasterProvider />
           <LoginModal />
           <RegisterModal />
-          <Navbar />
+          <Navbar currentUser={currentUser} />
         </ClientOnly>
         {children}
       </body>
