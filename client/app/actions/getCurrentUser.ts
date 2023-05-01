@@ -24,7 +24,14 @@ export default async function getCurrentUser() {
       return null;
     }
 
-    return currentUser;
+    // should change data type to string
+    // unless error occurs when data flows from server components to client components
+    return {
+      ...currentUser,
+      createdAt: currentUser.createdAt.toISOString(),
+      updatedAt: currentUser.updatedAt.toISOString(),
+      emailVerified: currentUser.emailVerified?.toISOString() || null,
+    };
   } catch (error: any) {
     return null;
   }
