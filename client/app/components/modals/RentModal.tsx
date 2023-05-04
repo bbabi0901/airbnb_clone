@@ -56,6 +56,9 @@ const RentModal = () => {
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
+  const imageSrc = watch("imageSrc");
+  const price = watch("price");
+  const description = watch("description");
 
   // dynamic import(importing using dynamic). WHY?
   const Map = useMemo(
@@ -187,7 +190,10 @@ const RentModal = () => {
           title="Add a photo of you place"
           subtitle="Show guests what your place looks like!"
         />
-        <ImageUpload />
+        <ImageUpload
+          value={imageSrc}
+          onChange={(value) => setCustomValue("imageSrc", value)}
+        />
       </div>
     );
   }
