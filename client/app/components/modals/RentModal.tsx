@@ -1,18 +1,18 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-import useRentModal from "@/app/hooks/useRentModal";
-import Modal from "./Modal";
-
-import Heading from "../Heading";
-
-import CategoryInput from "../inputs/CategoryInput";
-import CountrySelect from "../inputs/CountrySelect";
-import { categories } from "../navbar/Categories";
 import { useForm, FieldValues } from "react-hook-form";
 import { latLng } from "leaflet";
 import dynamic from "next/dynamic";
+
+import useRentModal from "@/app/hooks/useRentModal";
+
+import { categories } from "../navbar/Categories";
+import Modal from "./Modal";
+import Heading from "../Heading";
+import Counter from "../inputs/Counter";
+import CategoryInput from "../inputs/CategoryInput";
+import CountrySelect from "../inputs/CountrySelect";
 
 enum STEPS {
   CATEGORY = 0,
@@ -52,6 +52,9 @@ const RentModal = () => {
   // useForm()의 value 중 지정된 인자에 해당하는 data를 지켜보고 해당 값을 반환
   const category = watch("category");
   const location = watch("location");
+  const guestCount = watch("guestCount");
+  const roomCount = watch("roomCount");
+  const bathroomCount = watch("bathroomCount");
 
   // dynamic import(importing using dynamic). WHY?
   const Map = useMemo(
@@ -78,6 +81,12 @@ const RentModal = () => {
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
+      <Counter
+        title="Guests"
+        subtitle="How many guests do you allow?"
+        value={guestCount}
+        onChange={(value) => setCustomValue("guestCount", value)}
+      />;
       return "Create";
     }
     return "Next";
@@ -137,6 +146,49 @@ const RentModal = () => {
         <Map center={location?.latlng} />
       </div>
     );
+  }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Share some basics about your place"
+          subtitle="What amenities do you have?"
+        />
+        <Counter
+          title="Guests"
+          subtitle="How many guests do you allow?"
+          value={guestCount}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
+        <hr />
+        <Counter
+          title="Rooms"
+          subtitle="How many rooms do you have?"
+          value={roomCount}
+          onChange={(value) => setCustomValue("roomCount", value)}
+        />
+        <hr />
+        <Counter
+          title="Bathrooms"
+          subtitle="How many bathrooms do you allow?"
+          value={bathroomCount}
+          onChange={(value) => setCustomValue("bathroomCount", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.IMAGES) {
+    bodyContent = <div className="flex flex-col gap-8"></div>;
+  }
+
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = <div className="flex flex-col gap-8"></div>;
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = <div className="flex flex-col gap-8"></div>;
   }
 
   return (
