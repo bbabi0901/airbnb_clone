@@ -6,9 +6,13 @@ import useRentModal from "@/app/hooks/useRentModal";
 import Modal from "./Modal";
 
 import Heading from "../Heading";
+
 import CategoryInput from "../inputs/CategoryInput";
+import CountrySelect from "../inputs/CountrySelect";
 import { categories } from "../navbar/Categories";
 import { useForm, FieldValues } from "react-hook-form";
+import { latLng } from "leaflet";
+import dynamic from "next/dynamic";
 
 enum STEPS {
   CATEGORY = 0,
@@ -45,9 +49,17 @@ const RentModal = () => {
     },
   });
 
+  // useForm()의 value 중 지정된 인자에 해당하는 data를 지켜보고 해당 값을 반환
   const category = watch("category");
+  const location = watch("location");
 
-  // setValue of useForm does not re-render so we needs cutom setter function
+  // dynamic import(importing using dynamic). WHY?
+  const Map = useMemo(
+    () => dynamic(() => import("../Map"), { ssr: false }),
+    [location]
+  );
+
+  // "setValue()" from useForm does not re-render. Thus, we needs custom setter function.
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldDirty: true,
@@ -55,6 +67,7 @@ const RentModal = () => {
       shouldValidate: true,
     });
   };
+
   const onBack = () => {
     setStep((value) => value - 1);
   };
@@ -96,8 +109,8 @@ const RentModal = () => {
         {categories.map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput
-              onClick={(category) => {
-                setCustomValue("category", category);
+              onClick={(label) => {
+                setCustomValue("category", label);
               }}
               // this category is setted by setCustomValue when clicked.
               selected={category === item.label}
@@ -110,11 +123,27 @@ const RentModal = () => {
     </div>
   );
 
+  if (step === STEPS.LOCATION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Where is you place located?"
+          subtitle="Help guests find you!"
+        />
+        <CountrySelect
+          value={location}
+          onChange={(value) => setCustomValue("location", value)}
+        />
+        <Map center={location?.latlng} />
+      </div>
+    );
+  }
+
   return (
     <Modal
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
-      onSubmit={rentModal.onClose}
+      onSubmit={onNext}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
