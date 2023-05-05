@@ -11,6 +11,7 @@ import RentModal from "./components/modals/RentModal";
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import getCurrentUser from "./actions/getCurrentUser";
+import { SafeUser } from "./types";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -34,9 +35,9 @@ export default async function RootLayout({
           <RentModal />
           <LoginModal />
           <RegisterModal />
-          <Navbar currentUser={currentUser} />
+          <Navbar currentUser={currentUser as SafeUser} />
         </ClientOnly>
-        {children}
+        <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
   );
