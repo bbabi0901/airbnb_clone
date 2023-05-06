@@ -98,10 +98,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             // group-hover: 부모 컴포넌트까지 포함해서 hover시 적용
           />
           <div className="absolute top-3 right-3">
-            <HeartButton
-              listingId={data.id}
-              currentUser={currentUser as SafeUser}
-            />
+            <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
         <div className="font-semibold text-lg">
