@@ -10,14 +10,16 @@ import ListingHead from "@/app/components/listings/ListingHead";
 
 interface ListingClientProps {
   reservations?: Reservation[];
-  listing: SafeListing & { user: SafeUser };
+  listing: SafeListing & {
+    user: SafeUser;
+  };
   //   listing: SafeListing & { user: SafeUser };
   // 위는 getListingById 랑 app/types에 수정 필요
-  currentUser: SafeUser | null;
+  currentUser?: SafeUser | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
-  reservations,
+  reservations = [],
   listing,
   currentUser,
 }) => {

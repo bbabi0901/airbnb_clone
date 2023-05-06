@@ -7,11 +7,12 @@ interface IParams {
 export default async function getListingId(params: IParams) {
   try {
     const { listingId } = params;
+
+    // get data of listing with the data of user.
     const listing = await prisma.listing.findUnique({
       where: {
         id: listingId,
       },
-      // load the name user to check who owns this listing.
       include: {
         user: true,
       },
@@ -22,12 +23,12 @@ export default async function getListingId(params: IParams) {
     }
     return {
       ...listing,
-      createdAt: listing.createdAt.toISOString(),
+      createdAt: listing.createdAt.toString(),
       user: {
         ...listing.user,
         createdAt: listing.user.createdAt.toISOString(),
         updatedAt: listing.user.updatedAt.toISOString(),
-        emailVerified: listing.user.emailVerified?.toISOString(),
+        emailVerified: listing.user.emailVerified?.toISOString() || null,
       },
     };
   } catch (error: any) {
