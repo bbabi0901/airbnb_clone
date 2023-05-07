@@ -74,7 +74,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       listingId: listing?.id,
     };
     axios
-      .post("/api/reservation", data)
+      .post("/api/reservations", data)
       .then(() => {
         toast.success("Reservation success");
         setDateRange(initialDateRange);
