@@ -4,7 +4,6 @@ import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
-import { SafeUser } from "./types";
 
 // Home is server component.
 // Thus, we can call DB directly without api call using axios.
