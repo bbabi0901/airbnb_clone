@@ -1,13 +1,16 @@
-import getCurrentUser from "./actions/getCurrentUser";
-import getListings, { IListingsParams } from "./actions/getListings";
+import Container from "@/app/components/Container";
+import ListingCard from "@/app/components/listings/ListingCard";
+import EmptyState from "@/app/components/EmptyState";
+
+import getListings, { IListingsParams } from "@/app/actions/getListings";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import ClientOnly from "./components/ClientOnly";
-import Container from "./components/Container";
-import EmptyState from "./components/EmptyState";
-import ListingCard from "./components/listings/ListingCard";
 
 interface HomeProps {
   searchParams: IListingsParams;
 }
+
+export const dynamic = "force-dynamic";
 
 // Home is server component.
 // Thus, we can call DB directly without api call using axios.
